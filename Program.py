@@ -1,4 +1,6 @@
 #maths tool
+import numpy as np
+import matplotlib.pyplot as pl
 def eqn():
     while True:
         print("Instructions-\nFor triginometric functions- use ")
@@ -22,8 +24,17 @@ def ran():
         else:
             return r
             break
-
+def domain(r):
+    x=np.arange(r[0],r[1],0.4)
+    return x
 #main
 while True:
     a=eqn()
     b=ran()
+    x=domain(b)
+    y=eval(a)
+    print()
+    print("graph->\n")
+    pl.plot(x,y)
+    pl.show()
+    
