@@ -1,1 +1,3 @@
 # Maths-Tool
+Im trying to make a python program for making graphs...
+User could enter the equations and the output will be an eye catching graph :)
