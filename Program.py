@@ -5,9 +5,9 @@ def eqn():
     while True:
         print("Instructions-\nFor triginometric functions- use ")
         a=input("Enter equation->\nf(x)=")
-        if x not in a:
+        if "x" not in a:
             print("Enter the equation in form y=f(x)")
-        else
+        else:
             return a
             break
 def ran():
