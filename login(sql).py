@@ -86,6 +86,15 @@ def menu(x):
     l=cur.fetchall()
     t=l[0]
     print("welocme %s"%(t[2]))
+    print()
+    print("1. New graph \n2. View older graphs and equations \n3. Exit")
+    while True:
+        a=input("Pleace select your choice -> ")#func menu end
+        if a in ("1","2","3"):
+            break
+        else:
+            print("only 3 ch...")
+    return a
 """main"""
 while True:
     q=input("Do you have an account? ")
@@ -98,8 +107,15 @@ while True:
         print("Lets create your account!!")
         print()
         i=account()
-        print()   
-    menu(i)
+        print()
+    ch=menu(i)
+    if ch =="1":
+        print()
+    elif ch=="2":
+        print()
+    elif ch=="3":
+        print("Thanks...")
+        break
             
             
             
