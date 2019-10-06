@@ -1,6 +1,7 @@
 import mysql.connector as mysqlq
 import numpy as np
 import matplotlib.pyplot as pl
+from prettytable import PrettyTable as pt
 g=mysqlq.connect(host="localhost",user="root",passwd="newdelhi96")
 cur=g.cursor()
 cur.execute("show databases")
@@ -163,7 +164,7 @@ def account():
     g.commit()
     print("your account has been created!!!:)")
     q=str(n+1)
-    std="create table %s(dnt datetime,eqn varchar(20),eqnm varchar(30))"%("d"+q)
+    std="create table %s(sno numeric unique ,dnt datetime,eqn varchar(40),eqnm varchar(50))"%("d"+q)
     cur.execute(std)
     return n+1                #returning its id
 def menu(x):
@@ -183,10 +184,54 @@ def menu(x):
             print("only 3 ch...")
     return a
 def savegph(a,b,c):
-    e=str(a)
-    st="insert into %s values(now(),\"%s\",\"%s\")"%("d"+e,b,c)
+    e="d"+str(a)
+    cur.execute("select * from %s"%e)
+    l=cur.fetchall()
+    n=len(l)
+    z=n+1
+    st="insert into %s values(%d,now(),\"%s\",\"%s\")"%(e,z,b,c)
     cur.execute(st)
     g.commit()
+def show(n):
+    n="d"+str(n)
+    t=pt(["Sr.no","Equation","Date and time"])
+    st="select sno,eqn,dnt from %s"%(n)
+    cur.execute(st)
+    l=cur.fetchall()
+    z=len(l)
+    for i in l:
+        t.add_row(i)
+    print(t)
+    while True:
+        a=input("graph??=> ")
+        a=a.upper()
+        if a=="Y" or a=="YES":
+            while True:
+                b=input("enter snoo-> ")
+                if b.isnumeric() and int(b)<=z:
+                    break
+                else:
+                    print("sno!!!!!")
+                    continue
+            st="select eqnm from %s where sno=%d"%(n,int(b))
+            cur.execute(st)
+            la=cur.fetchall()
+            en=la[0][0]
+            grphh(en)
+            print("graph=>>> ")
+            pl.show()
+        elif a=="N" or a=="NO":
+            print("okk?:O")
+            break
+def grphh(e):
+    r=ran()
+    x=domain(r)
+    y=eval(e)
+    pl.plot(x,y)
+    pl.grid(True,which="major")
+    pl.axhline(y=0,color="k")
+    pl.axvline(x=0,color="k")
+    pl.show()
 #"""main"""
 while True:
     q=input("Do you have an account? ")
@@ -200,6 +245,12 @@ while True:
         print()
         i=account()
         print()
+    elif q=="E" or q=="EXIT":
+        print("goodbye!!:)")
+        break
+    else:
+        print("enter either yes or no!!")
+        continue
     while True:
         ch=menu(i)
         if ch =="1":
@@ -212,21 +263,17 @@ while True:
             la=""
             while la!="NO" and la!="N":
                 a=eqn()
-                b=ran()
-                x=domain(b)
                 c=eqnp(a)
                 c=eqnt(c)
                 c=eqnl(c)
-                y=eval(c)
                 print()
                 print("graph->\n")
-                pl.plot(x,y)
-                pl.show()
+                grphh(c)
                 savegph(i,a,c)
                 la=input("any more graphs?")
                 la=la.upper()
         elif ch=="2":
-            print()
+            show(i)
         elif ch=="3":
             print("Thanks...")
             break
