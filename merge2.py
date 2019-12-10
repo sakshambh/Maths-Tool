@@ -41,15 +41,19 @@ def ran():
         r=input("Enter range- (a to b) -> ")
         r=r.split("to")
         r[0],r[1]=float(r[0].strip()),float(r[1].strip())
-        if r[0]>r[1]:
-            r[0],r[1]=r[1],r[0]
-            return r
-            break
-        elif r[0]==r[1]:
-            print("Range is not acceptable..\n\n")
+        if r[0].isdigit() and r[1].isdigit():
+            if r[0]>r[1]:
+                r[0],r[1]=r[1],r[0]
+                return r
+                break
+            elif r[0]==r[1]:
+                print("Range is not acceptable..\n\n")
+            else:
+                return r
+                break
         else:
-            return r
-            break
+            print("please enter in a to b format")
+            continue
 def domain(r):
     x=np.linspace(r[0],r[1],1000)
     return x
@@ -277,8 +281,3 @@ while True:
         elif ch=="3":
             print("Thanks...")
             break
-                
-            
-            
-        
-        
