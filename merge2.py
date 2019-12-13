@@ -2,6 +2,7 @@ import mysql.connector as mysqlq
 import numpy as np
 import matplotlib.pyplot as pl
 from prettytable import PrettyTable as pt
+import math as ma
 g=mysqlq.connect(host="localhost",user="root",passwd="newdelhi96")
 cur=g.cursor()
 cur.execute("show databases")
@@ -40,20 +41,20 @@ def ran():
     while True:   
         r=input("Enter range- (a to b) -> ")
         r=r.split("to")
-        r[0],r[1]=float(r[0].strip()),float(r[1].strip())
-        if r[0].isdigit() and r[1].isdigit():
-            if r[0]>r[1]:
-                r[0],r[1]=r[1],r[0]
-                return r
-                break
-            elif r[0]==r[1]:
-                print("Range is not acceptable..\n\n")
-            else:
-                return r
-                break
-        else:
+        try:
+            r[0],r[1]=float(r[0].strip()),float(r[1].strip())
+        except:
             print("please enter in a to b format")
             continue
+        if r[0]>r[1]:
+            r[0],r[1]=r[1],r[0]
+            return r
+            break
+        elif r[0]==r[1]:
+            print("Range is not acceptable..\n\n")
+        else:
+            return r
+            break
 def domain(r):
     x=np.linspace(r[0],r[1],1000)
     return x
@@ -109,6 +110,27 @@ def eqnl(e):
                 l[i]="*np.l"
             else:
                 l[i]="np.l"
+        else:
+            continue
+    e="".join(l)
+    return e
+def eqnflor(e):    #gif
+    l=list(e)
+    for i in range(len(l)):
+        if l[i]=="[" and "]" in l[i+1:]:
+            l[i]="np.floor("
+        else:
+            continue
+    l=[")" if i=="]" else i for i in l]
+    e="".join(l)
+    return e
+def eqnmod(e):
+    l=list(e)
+    for i in range(len(l)):
+        if l[i]=="|" and i<len(l)-1 and l[i+1]=="(":
+            l[i]="np.fabs("
+        elif l[i]=="|" and i!=0 and l[i-1]==")":
+            l[i]=")"
         else:
             continue
     e="".join(l)
@@ -228,8 +250,12 @@ def show(n):
             print("okk?:O")
             break
 def grphh(e):
+    global qla
     r=ran()
+    print(r)
     x=domain(r)
+    print(x)
+    qla=x
     y=eval(e)
     pl.plot(x,y)
     pl.grid(True,which="major")
@@ -270,6 +296,8 @@ while True:
                 c=eqnp(a)
                 c=eqnt(c)
                 c=eqnl(c)
+                c=eqnflor(c)
+                c=eqnmod(c)
                 print()
                 print("graph->\n")
                 grphh(c)
