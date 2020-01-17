@@ -241,7 +241,7 @@ def menu(x):
     l=cur.fetchall()
     t=l[0]
     vrl=len(t[2])
-    print("* ","welocme %s"%(t[2])," "*(32-vrl),"*")
+    print("* ","welcome %s"%(t[2])," "*(32-vrl),"*")
     print("* "," "*41,"*")
     print("* ","1. New graph"," "*28,"*")                    #42
     print("* ","2. Combined Graphs"," "*22,"*")
@@ -331,7 +331,7 @@ def show(n):
                 st="select sno from %s"%(n)
                 cur.execute(st)
                 kk=cur.fetchall()
-                c=input("which no to bd=> ")
+                c=input("Enter the serial number of equation => ")
                 if c.isnumeric() and int(c)<=z:
                     c=int(c)
                     for it in kk:
@@ -340,12 +340,14 @@ def show(n):
                         else:
                             pass
                     else:
-                        print("already del")
+                        print()
+                        print("already deleted ")
                         zz=3214
                         break
                     break
                 else:
-                    print("sno!!!!!")
+                    print()
+                    print("Please enter valid serial number")
                     continue
             if zz!=3214:
                 try:
@@ -354,14 +356,15 @@ def show(n):
                     g.commit()
                     print()
                     print()
-                    print("success")
+                    print("success, Equation has been deleted")
                 except:
+                    print()
                     print("failure")
                 st="select sno,eqn,dnt from %s"%(n)
                 cur.execute(st)
                 l=cur.fetchall()
                 if len(l)==0:
-                    print("no graphs...")
+                    print("no graphs remaining")
                     return None
                 else:
                     t=pt(["Sr.no","Equation","Date and time"])
@@ -375,7 +378,8 @@ def show(n):
             print("graph=>> ")
             pl.show()
         elif a==4:
-            print("okk?:O")
+            print()
+            print(":O")
             break
 def combgsh(n):
     st="select sno from %s"%n
@@ -396,7 +400,7 @@ def combgsh(n):
             print("please enter a number less than 5 :)")
     for i in range(1,a+1):
         while True:
-            c=input("srno of eqn %d-> "%i)
+            c=input("Serial number of equation %d-> "%i)
             if c.isdigit():
                 c=int(c)
                 for ii in la:
@@ -495,7 +499,7 @@ def grpha(i,p=""):
 print("Welcome to maths tool..")
 print("Perfect place for creating graphs")
 while True:
-    q=input("Do you have an account with Saksham Software?(Y/n) ")
+    q=input("Do you have an account with xyz Software?(Y/n) ")
     q=q.strip()
     print()
     q=q.upper()
@@ -522,7 +526,7 @@ while True:
         if ch =="1":    #i=person 
             print()
             print("Instructions-")
-            print("1.) write equation like ax3+bx2+cx+d,  or ae^(bx) or ")
+            print("1.) write equation like ax3+bx2+cx+d,  or ae^(bx)")
             print("2.) for trignometric function write like asin(bx) or asin(bx^2)")
             print("3.) For modulus function write as |(ax)|")
             print("4.) For greatest integer function write as [ax]")
@@ -560,5 +564,5 @@ while True:
         elif ch=="3":
             show(i)
         elif ch=="4":
-            print("Thanks...")
+            print("Thank you :)")
             break
